@@ -1,28 +1,59 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="primary"
+      dark
+    >
+      <div class="d-flex align-center">
+        <v-img
+          alt="Ethereum Logo"
+          class="shrink mr-2"
+          contain
+          :src="require('./assets/logo.png')"
+          transition="scale-transition"
+          width="150"
+        />
+      </div>
+    </v-app-bar>
+
+    <v-main>
+
+      <v-parallax
+              :src="require('./assets/hero.png')"
+              height="250"
+          >
+          <v-container fill-width>
+              <v-row align-center>
+                  <v-col>
+                    <h1 class="display-1 font-weight-thin mb-4">
+                      Slot Finder
+                    </h1>
+                    <h4 class="subheading">
+                      Does anybody really know what slot it is anyway?
+                    </h4>
+                  </v-col>
+              </v-row>
+          </v-container>
+      </v-parallax>
+      
+      <SlotFinder/>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import SlotFinder from './components/SlotFinder';
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  components: {
+    SlotFinder,
+  },
+
+  data: () => ({
+    //
+  }),
+};
+</script>
