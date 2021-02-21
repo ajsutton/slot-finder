@@ -6,6 +6,9 @@
       </v-col>
     </v-row>
     <v-row>
+      <h2>Slot to Time</h2>
+    </v-row>
+    <v-row>
       <v-col cols=12 sm=6 md=3>
         <v-text-field type="number" pattern="\d*" label="Slot" v-model="slot"></v-text-field>
       </v-col>
@@ -14,6 +17,18 @@
       </v-col>
       <v-col cols=12 sm=6 md=3>
         <v-text-field readonly label="Time (Local)" v-model="slotTimeLocal"></v-text-field>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <h2>Time to Slot</h2>
+    </v-row>
+    <v-row>
+      <v-col cols=12 sm=6 md=3>
+        <v-text-field label="Time" v-model="utcInput"></v-text-field>
+      </v-col>
+      <v-col cols=12 sm=6 md=3>
+        <v-text-field readonly type="number" pattern="\d*" label="Slot" v-model="slotFromUtc"></v-text-field>
       </v-col>
     </v-row>
   </v-container>
@@ -32,7 +47,8 @@
         { name: "Pyrmont", genesisTime: 1605700807 },
       ],
       genesisTime: MainNetGenesisTime,
-      slot: 0
+      slot: 0,
+      utcInput: new Date().toISOString()
     }),
 
     computed: {
@@ -45,6 +61,10 @@
       },
       slotTimeLocal() {
         return this.slotTime.toLocaleString();
+      },
+      slotFromUtc() {
+        const date = new Date(this.utcInput);
+        return Math.floor((date.getTime() / 1000 - this.genesisTime) / SecondsPerSlot);
       }
     }
   }
