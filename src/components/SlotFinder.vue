@@ -45,6 +45,7 @@
       networks: [
         { name: "MainNet", genesisTime: MainNetGenesisTime },
         { name: "Pyrmont", genesisTime: 1605700807 },
+        { name: "Prater", genesisTime: 1616508000 },
       ],
       genesisTime: MainNetGenesisTime,
       slot: 0,
