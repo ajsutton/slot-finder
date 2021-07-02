@@ -1,5 +1,7 @@
 # slot-finder
 
+You can use the deployed version of this at https://slots.symphonious.net
+
 ## Project setup
 ```
 yarn install
