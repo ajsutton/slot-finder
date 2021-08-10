@@ -1,11 +1,6 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols=12 sm=12 md=3>
-        <v-select label="Network" v-model="genesisTime" :items="networks" item-text="name" item-value="genesisTime"></v-select>
-      </v-col>
-    </v-row>
-    <v-row>
       <h2>Slot to Time</h2>
     </v-row>
     <v-row>
@@ -35,19 +30,14 @@
 </template>
 
 <script>
-
-  const MainNetGenesisTime = 1606824023;
   const SecondsPerSlot = 12;
   export default {
     name: 'SlotFinder',
 
+    props: {
+      genesisTime: Number,
+    },
     data: () => ({
-      networks: [
-        { name: "MainNet", genesisTime: MainNetGenesisTime },
-        { name: "Pyrmont", genesisTime: 1605700807 },
-        { name: "Prater", genesisTime: 1616508000 },
-      ],
-      genesisTime: MainNetGenesisTime,
       slot: 0,
       utcInput: new Date().toISOString()
     }),

@@ -37,19 +37,25 @@
           </v-container>
       </v-parallax>
       
-      <SlotFinder/>
+      <v-container>
+        <v-row>
+          <v-col>
+          <MainNav/>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import SlotFinder from './components/SlotFinder';
+import MainNav from './components/MainNav';
 
 export default {
   name: 'App',
 
   components: {
-    SlotFinder,
+    MainNav,
   },
 
   data: () => ({
