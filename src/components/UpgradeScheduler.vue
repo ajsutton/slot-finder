@@ -115,14 +115,14 @@
                 }
             },
             timeBackground(time, timeZone) {
-                const str = time.toLocaleString(undefined, {timeZone});
+                const str = time.toLocaleString("en-US", {timeZone});
                 const date = new Date(Date.parse(str));
                 const hour = date.getHours();
                 if (hour >= 8 && hour < 17) {
                     return "green lighten-1";
-                } else if (hour > 7 && hour < 22) {
+                } else if (hour > 7 && hour < 21) {
                     return "green lighten-2";
-                } else if (hour > 5 && hour < 23) {
+                } else if (hour > 6 && hour < 22) {
                     return "green lighten-4";
                 } else if (hour >= 5 && hour < 24) {
                     return "yellow lighten-4";
