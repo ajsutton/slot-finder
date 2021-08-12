@@ -33,15 +33,17 @@
     </v-row>
     <v-row>
         <v-col cols="12">
-            <v-simple-table>
+            <v-simple-table fixed-header height="500px">
                 <template v-slot:default>
                     <thead>
-                        <th>Epoch</th>
-                        <th>Start Slot</th>
-                        <th>UTC</th>
-                        <th>New York</th>
-                        <th>Brisbane</th>
-                        <th>Local Time</th>
+                        <tr>
+                            <th>Epoch</th>
+                            <th>Start Slot</th>
+                            <th>UTC</th>
+                            <th>New York</th>
+                            <th>Brisbane</th>
+                            <th>Local Time</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr :key="row.epoch" v-for="row in rows">
