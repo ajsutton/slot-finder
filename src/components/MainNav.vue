@@ -35,6 +35,7 @@
         { name: "MainNet", genesisTime: MainNetGenesisTime },
         { name: "Pyrmont", genesisTime: 1605700807 },
         { name: "Prater", genesisTime: 1616508000 },
+        { name: "Görli Shadow Fork 4", genesisTime: 1650031500},
       ],
       genesisTime: MainNetGenesisTime,
       tabs: null,
