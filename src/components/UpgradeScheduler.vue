@@ -40,6 +40,7 @@
                             <th>Epoch</th>
                             <th>Start Slot</th>
                             <th>UTC</th>
+                            <th>Los Angeles</th>
                             <th>New York</th>
                             <th>Brisbane</th>
                             <th>Local Time</th>
@@ -50,6 +51,7 @@
                             <td :class="roundNumberBackground(row.epoch)">{{row.epoch}}</td>
                             <td :class="roundNumberBackground(row.slot)">{{row.slot}}</td>
                             <td :class="timeBackground(row.slotTime, 'UTC')">{{inTimeZone(row.slotTime, "UTC")}}</td>
+                            <td :class="timeBackground(row.slotTime, 'America/Los_Angeles')">{{inTimeZone(row.slotTime, "America/Los_Angeles")}}</td>
                             <td :class="timeBackground(row.slotTime, 'America/New_York')">{{inTimeZone(row.slotTime, "America/New_York")}}</td>
                             <td :class="timeBackground(row.slotTime, 'Australia/Brisbane')">{{inTimeZone(row.slotTime, "Australia/Brisbane")}}</td>
                             <td :class="timeBackground(row.slotTime, undefined)">{{asLocalTime(row.slotTime)}}</td>
