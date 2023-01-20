@@ -3,7 +3,7 @@
         <v-toolbar flat>
             <v-row>
                 <v-col cols=12 sm=12 md=3>
-                    <v-select label="Network" v-model="genesisTime" :items="networks" item-text="name" item-value="genesisTime"></v-select>
+                    <v-select label="Network" v-model="config" :items="networks" item-text="name" item-value="config"></v-select>
                 </v-col>
             </v-row>
         </v-toolbar>
@@ -12,10 +12,10 @@
             <v-tab href="#slot-finder" left>Slots</v-tab>
             <v-tab href="#upgrade-scheduler" left>Upgrade Scheduler</v-tab>
             <v-tab-item value="slot-finder">
-                <slot-finder :genesisTime="genesisTime"></slot-finder>
+                <slot-finder :config="config"></slot-finder>
             </v-tab-item>
             <v-tab-item value="upgrade-scheduler">
-                <upgrade-scheduler :genesisTime="genesisTime"></upgrade-scheduler>
+                <upgrade-scheduler :config="config"></upgrade-scheduler>
             </v-tab-item>
         </v-tabs>
     </v-card>
@@ -26,20 +26,24 @@
   import SlotFinder from './SlotFinder';
   import UpgradeScheduler from './UpgradeScheduler';
 
-  const MainNetGenesisTime = 1606824023;
+  const MainNetConfig = {
+    genesisTime: 1606824023,
+    secondsPerSlot: 12,
+    slotsPerEpoch: 32
+  }
+
   export default {
     name: 'MainNav',
 
     data: () => ({
       networks: [
-        { name: "MainNet", genesisTime: MainNetGenesisTime },
-        { name: "Prater", genesisTime: 1616508000 },
-        { name: "Sepolia", genesisTime: 1655733600 },
-        { name: "Ropsten", genesisTime: 1653922800 },
-        { name: "Kiln", genesisTime: 1647007500},
-        { name: "Pyrmont", genesisTime: 1605700807 },
+        { name: "MainNet", config: MainNetConfig },
+        { name: "Goerli", config: { ...MainNetConfig, genesisTime: 1616508000 } },
+        { name: "Sepolia", config: { ...MainNetConfig, genesisTime: 1655733600 } },
+        { name: "Ropsten", config: { ...MainNetConfig, genesisTime: 1653922800 } },
+        { name: "Gnosis", config: { genesisTime: 1638993340, secondsPerSlot: 5, slotsPerEpoch: 16 } }
       ],
-      genesisTime: MainNetGenesisTime,
+      config: MainNetConfig,
       tabs: null,
     }),
 

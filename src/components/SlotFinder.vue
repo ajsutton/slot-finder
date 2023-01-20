@@ -30,12 +30,11 @@
 </template>
 
 <script>
-  const SecondsPerSlot = 12;
   export default {
     name: 'SlotFinder',
 
     props: {
-      genesisTime: Number,
+      config: Object
     },
     data: () => ({
       slot: 0,
@@ -44,7 +43,7 @@
 
     computed: {
       slotTime() {
-        const secondsTimestamp = this.genesisTime + (this.slot * SecondsPerSlot);
+        const secondsTimestamp = this.config.genesisTime + (this.slot * this.config.secondsPerSlot);
         return new Date(secondsTimestamp * 1000);
       },
       slotTimeUTC() {
@@ -55,7 +54,7 @@
       },
       slotFromUtc() {
         const date = new Date(this.utcInput);
-        return Math.floor((date.getTime() / 1000 - this.genesisTime) / SecondsPerSlot);
+        return Math.floor((date.getTime() / 1000 - this.config.genesisTime) / this.config.secondsPerSlot);
       }
     }
   }
