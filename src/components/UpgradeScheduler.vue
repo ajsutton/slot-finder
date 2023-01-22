@@ -67,25 +67,23 @@
 </template>
 
 <script>
-    const SecondsPerSlot = 12;
-    const SlotsPerEpoch = 32;
     export default {
         data: () => ({
             date: new Date(Date.now()).toISOString().substr(0, 10),
             dateMenu: false,
         }),
         props: {
-            genesisTime: Number,
+            config: Object,
         },
         computed: {
             rows() {
                 const dayStartTimestamp = new Date(this.date).getTime() / 1000;
-                const dayStartOffset = dayStartTimestamp - this.genesisTime;
-                const dayStartEpoch = Math.floor(dayStartOffset / SecondsPerSlot / SlotsPerEpoch);
+                const dayStartOffset = dayStartTimestamp - this.config.genesisTime;
+                const dayStartEpoch = Math.floor(dayStartOffset / this.config.secondsPerSlot / this.config.slotsPerEpoch);
                 const rows = [];
                 for (var i = -112; i <= 225; i++) {
                     const epoch = dayStartEpoch + i;
-                    const slot = epoch * SlotsPerEpoch;
+                    const slot = epoch * this.config.slotsPerEpoch;
                     const slotTime = this.slotTime(slot);
                     rows.push({epoch, slot, slotTime, utc: this.asUTC(slotTime), local: this.asLocalTime(slotTime),
                         newYork: this.inTimeZone(slotTime, "America/New_York"),
@@ -97,7 +95,7 @@
         },
         methods: {
             slotTime(slot) {
-                const secondsTimestamp = this.genesisTime + (slot * SecondsPerSlot);
+                const secondsTimestamp = this.config.genesisTime + (slot * this.config.secondsPerSlot);
                 return new Date(secondsTimestamp * 1000);
             },
             asUTC(slotTime) {
