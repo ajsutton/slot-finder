@@ -13,6 +13,9 @@
       <v-col cols=12 sm=6 md=3>
         <v-text-field readonly label="Time (Local)" v-model="slotTimeLocal"></v-text-field>
       </v-col>
+      <v-col cols=12 sm=6 md=3>
+        <v-text-field readonly label="Unix Timestamp" v-model="slotTimestamp"></v-text-field>
+      </v-col>
     </v-row>
 
     <v-row>
@@ -55,6 +58,9 @@
       slotFromUtc() {
         const date = new Date(this.utcInput);
         return Math.floor((date.getTime() / 1000 - this.config.genesisTime) / this.config.secondsPerSlot);
+      },
+      slotTimestamp() {
+        return this.slotTime.getTime() / 1000;
       }
     }
   }
