@@ -1,34 +1,34 @@
 <template>
   <v-container>
     <v-row>
-        <v-col
-        cols="12"
-        sm="6"
-        md="4"
-        >
-        <v-menu
-            v-model="dateMenu"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-        >
-            <template v-slot:activator="{ on, attrs }">
-            <v-text-field
+        <v-col cols="12" sm="6" md="4">
+            <v-menu
+                v-model="dateMenu"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+            >
+                <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                    v-model="date"
+                    label="Upgrade Date"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                ></v-text-field>
+                </template>
+                <v-date-picker
                 v-model="date"
-                label="Upgrade Date"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-            ></v-text-field>
-            </template>
-            <v-date-picker
-            v-model="date"
-            @input="dateMenu = false"
-            ></v-date-picker>
-        </v-menu>
+                @input="dateMenu = false"
+                ></v-date-picker>
+            </v-menu>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="12" sm="6" md="6">
+            <v-checkbox v-model="boundaryOnly" label="Show only accumulator boundaries"></v-checkbox>
         </v-col>
     </v-row>
     <v-row>
@@ -76,12 +76,13 @@
     dayjs.extend(timezone)
     dayjs.extend(customParseFormat)
 
-    const dateFormat = "YYYY-MM-DD HH:mm:ss ZZ"
+    const dateFormat = "YYYY-MM-DD HH:mm:ss"
 
     export default {
         data: () => ({
             date: new Date(Date.now()).toISOString().substr(0, 10),
             dateMenu: false,
+            boundaryOnly: false,
         }),
         props: {
             config: Object,
@@ -96,7 +97,10 @@
                     const epoch = dayStartEpoch + i;
                     const slot = epoch * this.config.slotsPerEpoch;
                     const slotTime = this.slotTime(slot);
-                    rows.push({epoch, slot, slotTime});
+                    const isHistoricalRootBoundary = (slot % 8192 == 0)
+                    if (isHistoricalRootBoundary || !this.boundaryOnly) {
+                        rows.push({epoch, slot, slotTime, isHistoricalRootBoundary});
+                    }
                 }
                 return rows;
             }
