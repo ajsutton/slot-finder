@@ -39,11 +39,11 @@
                         <tr>
                             <th>Epoch</th>
                             <th>Start Slot</th>
-                            <th>UTC</th>
-                            <th>Moscow</th>
-                            <th>Los Angeles</th>
-                            <th>New York</th>
-                            <th>Brisbane</th>
+                            <th>UTC ({{tzOffset("UTC")}})</th>
+                            <th>Moscow ({{tzOffset("Europe/Moscow")}})</th>
+                            <th>Los Angeles ({{tzOffset("America/Los_Angeles")}})</th>
+                            <th>New York ({{tzOffset("America/New_York")}})</th>
+                            <th>Brisbane  ({{tzOffset("Australia/Brisbane")}})</th>
                             <th>Local Time</th>
                         </tr>
                     </thead>
@@ -67,6 +67,17 @@
 </template>
 
 <script>
+    const dayjs = require('dayjs')
+    const utc = require('dayjs/plugin/utc')
+    const timezone = require('dayjs/plugin/timezone')
+    const customParseFormat = require('dayjs/plugin/customParseFormat')
+
+    dayjs.extend(utc)
+    dayjs.extend(timezone)
+    dayjs.extend(customParseFormat)
+
+    const dateFormat = "YYYY-MM-DD HH:mm:ss ZZ"
+
     export default {
         data: () => ({
             date: new Date(Date.now()).toISOString().substr(0, 10),
@@ -85,10 +96,7 @@
                     const epoch = dayStartEpoch + i;
                     const slot = epoch * this.config.slotsPerEpoch;
                     const slotTime = this.slotTime(slot);
-                    rows.push({epoch, slot, slotTime, utc: this.asUTC(slotTime), local: this.asLocalTime(slotTime),
-                        newYork: this.inTimeZone(slotTime, "America/New_York"),
-                        brisbane: this.inTimeZone(slotTime, "Australia/Brisbane"),
-                    });
+                    rows.push({epoch, slot, slotTime});
                 }
                 return rows;
             }
@@ -96,16 +104,19 @@
         methods: {
             slotTime(slot) {
                 const secondsTimestamp = this.config.genesisTime + (slot * this.config.secondsPerSlot);
-                return new Date(secondsTimestamp * 1000);
+                return dayjs.utc(secondsTimestamp * 1000);
             },
             asUTC(slotTime) {
-                return slotTime.toLocaleString(undefined, {timeZone: "UTC"});
+                return slotTime.tz("UTC").format(dateFormat);
             },
             inTimeZone(slotTime, timeZone) {
-                return slotTime.toLocaleString(undefined, {timeZone});
+                return slotTime.tz(timeZone).format(dateFormat, timeZone);
             },
             asLocalTime(slotTime) {
-                return slotTime.toLocaleString();
+                return slotTime.tz(dayjs.tz.guess()).format(dateFormat);
+            },
+            tzOffset(timeZone) {
+                return dayjs(this.date).tz(timeZone).format("Z")
             },
 
             roundNumberBackground(value) {
@@ -119,9 +130,7 @@
                 }
             },
             timeBackground(time, timeZone) {
-                const str = time.toLocaleString("en-US", {timeZone});
-                const date = new Date(Date.parse(str));
-                const hour = date.getHours();
+                const hour = time.tz(timeZone).hour();
                 if (hour >= 8 && hour < 17) {
                     return "green lighten-1";
                 } else if (hour > 7 && hour < 21) {

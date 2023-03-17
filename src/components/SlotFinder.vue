@@ -33,6 +33,25 @@
 </template>
 
 <script>
+  const dayjs = require('dayjs')
+  const utc = require('dayjs/plugin/utc')
+  const timezone = require('dayjs/plugin/timezone')
+  const customParseFormat = require('dayjs/plugin/customParseFormat')
+
+  dayjs.extend(utc)
+  dayjs.extend(timezone)
+  dayjs.extend(customParseFormat)
+
+  const dateFormat = "YYYY-MM-DD HH:mm:ss Z"
+
+  function formatDate(date, tz) {
+    date = dayjs(date)
+    if (tz != undefined) {
+      date = date.tz(tz)
+    }
+    return date.format(dateFormat)
+  }
+
   export default {
     name: 'SlotFinder',
 
@@ -41,7 +60,7 @@
     },
     data: () => ({
       slot: 0,
-      utcInput: new Date().toISOString()
+      utcInput: formatDate(dayjs.utc())
     }),
 
     computed: {
@@ -50,14 +69,14 @@
         return new Date(secondsTimestamp * 1000);
       },
       slotTimeUTC() {
-        return this.slotTime.toLocaleString(undefined, {timeZone: "UTC"});
+        return formatDate(this.slotTime, "UTC");
       },
       slotTimeLocal() {
-        return this.slotTime.toLocaleString();
+        return formatDate(this.slotTime);
       },
       slotFromUtc() {
-        const date = new Date(this.utcInput);
-        return Math.floor((date.getTime() / 1000 - this.config.genesisTime) / this.config.secondsPerSlot);
+        const date = dayjs.utc(this.utcInput, dateFormat);
+        return Math.floor((date.valueOf() / 1000 - this.config.genesisTime) / this.config.secondsPerSlot);
       },
       slotTimestamp() {
         return this.slotTime.getTime() / 1000;
