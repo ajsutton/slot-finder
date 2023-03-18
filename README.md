@@ -1,6 +1,6 @@
 # slot-finder
 
-You can use the deployed version of this at https://slots.symphonious.net
+You can use the deployed version of this at https://slots.symphonious.net or run it locally by opening `docs/index.html` in your browser.
 
 ## Project setup
 ```
@@ -16,6 +16,8 @@ yarn serve
 ```
 yarn build
 ```
+
+Outputs to the `docs` folder
 
 ### Lints and fixes files
 ```
