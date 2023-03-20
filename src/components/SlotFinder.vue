@@ -42,14 +42,15 @@
   dayjs.extend(timezone)
   dayjs.extend(customParseFormat)
 
-  const dateFormat = "YYYY-MM-DD HH:mm:ss Z"
+  const dateFormat = "YYYY-MM-DD HH:mm:ss"
 
   function formatDate(date, tz) {
     date = dayjs(date)
     if (tz != undefined) {
       date = date.tz(tz)
     }
-    return date.format(dateFormat)
+    const utcOffset = date.utcOffset()
+    return date.format(utcOffset == 0 ? dateFormat : dateFormat + " Z")
   }
 
   export default {
