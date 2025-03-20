@@ -38,9 +38,10 @@
     data: () => ({
       networks: [
         { name: "MainNet", config: MainNetConfig },
+        { name: "Hoodi", config: { ...MainNetConfig, genesisTime: 1742213400 } },
+        { name: "Sepolia", config: { ...MainNetConfig, genesisTime: 1655733600 } },
         { name: "Holesky", config: { ...MainNetConfig, genesisTime: 1695902400 } },
         { name: "Goerli", config: { ...MainNetConfig, genesisTime: 1616508000 } },
-        { name: "Sepolia", config: { ...MainNetConfig, genesisTime: 1655733600 } },
         { name: "Gnosis", config: { genesisTime: 1638993340, secondsPerSlot: 5, slotsPerEpoch: 16 } }
       ],
       config: MainNetConfig,
