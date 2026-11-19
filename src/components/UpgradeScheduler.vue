@@ -60,6 +60,9 @@
                             <td :class="timeBackground(row.slotTime, 'Australia/Brisbane')">{{inTimeZone(row.slotTime, "Australia/Brisbane")}}</td>
                             <td :class="timeBackground(row.slotTime, undefined)">{{asLocalTime(row.slotTime)}}</td>
                         </tr>
+                        <tr v-if="rows.length == 0">
+                            <td colspan="9" class="text-center">{{boundaryOnly ? "No accumulator boundary" : "No epochs"}} on {{date}} (UTC)</td>
+                        </tr>
                     </tbody>
                 </template>
             </v-simple-table>
@@ -92,11 +95,11 @@
         computed: {
             rows() {
                 const dayStartTimestamp = new Date(this.date).getTime() / 1000;
-                const dayStartOffset = dayStartTimestamp - this.config.genesisTime;
-                const dayStartEpoch = Math.floor(dayStartOffset / this.config.secondsPerSlot / this.config.slotsPerEpoch);
+                const dayEndTimestamp = dayStartTimestamp + 86400;
+                const secondsPerEpoch = this.config.secondsPerSlot * this.config.slotsPerEpoch;
+                const firstEpoch = Math.max(0, Math.ceil((dayStartTimestamp - this.config.genesisTime) / secondsPerEpoch));
                 const rows = [];
-                for (var i = -112; i <= 225; i++) {
-                    const epoch = dayStartEpoch + i;
+                for (var epoch = firstEpoch; this.config.genesisTime + epoch * secondsPerEpoch < dayEndTimestamp; epoch++) {
                     const slot = epoch * this.config.slotsPerEpoch;
                     const slotTime = this.slotTime(slot);
                     const unixtime = this.config.genesisTime + (slot * this.config.secondsPerSlot);
