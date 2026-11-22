@@ -1,16 +1,14 @@
 <template>
   <v-app>
     <v-app-bar
-      app
       color="primary"
-      dark
     >
       <div class="d-flex align-center">
         <v-img
           alt="Ethereum Logo"
           class="shrink mr-2"
-          contain
-          :src="require('./assets/logo.png')"
+          fit="contain"
+          :src="logo"
           transition="scale-transition"
           width="150"
         />
@@ -20,16 +18,17 @@
     <v-main>
 
       <v-parallax
-              :src="require('./assets/hero.png')"
+              class="text-white"
+              :src="hero"
               height="250"
           >
-          <v-container fill-width>
-              <v-row align-center>
+          <v-container class="fill-height d-flex align-center flex-wrap">
+              <v-row align="center">
                   <v-col>
-                    <h1 class="display-1 font-weight-thin mb-4">
+                    <h1 class="text-headline-large font-weight-thin mb-4">
                       Slot Finder
                     </h1>
-                    <h4 class="subheading">
+                    <h4 class="text-title-medium">
                       Does anybody really know what slot it is anyway?
                     </h4>
                   </v-col>
@@ -49,7 +48,9 @@
 </template>
 
 <script>
-import MainNav from './components/MainNav';
+import MainNav from './components/MainNav.vue';
+import logo from './assets/logo.png';
+import hero from './assets/hero.png';
 
 export default {
   name: 'App',
@@ -59,7 +60,12 @@ export default {
   },
 
   data: () => ({
-    //
+    logo,
+    hero,
   }),
 };
 </script>
+
+<style>
+h1, h2, h4 { margin: 0; }
+</style>

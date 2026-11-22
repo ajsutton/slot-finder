@@ -1,8 +1,8 @@
 # Build stage
-FROM node:16-alpine AS build-stage
+FROM node:24-alpine AS build-stage
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 COPY . .
 RUN npm run build
 

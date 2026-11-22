@@ -33,10 +33,10 @@
 </template>
 
 <script>
-  const dayjs = require('dayjs')
-  const utc = require('dayjs/plugin/utc')
-  const timezone = require('dayjs/plugin/timezone')
-  const customParseFormat = require('dayjs/plugin/customParseFormat')
+  import dayjs from 'dayjs'
+  import utc from 'dayjs/plugin/utc.js'
+  import timezone from 'dayjs/plugin/timezone.js'
+  import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 
   dayjs.extend(utc)
   dayjs.extend(timezone)

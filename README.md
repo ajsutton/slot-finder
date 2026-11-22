@@ -1,8 +1,11 @@
 # slot-finder
 
-You can use the deployed version of this at https://slots.symphonious.net or run it locally by opening `docs/index.html` in your browser.
+You can use the deployed version of this at https://slots.symphonious.net or run it locally with `yarn serve`.
 
 ## Project setup
+
+Use Node.js 24 and Yarn Classic 1.22.22.
+
 ```
 yarn install
 ```
@@ -25,8 +28,8 @@ The [Deploy site to GitHub Pages](.github/workflows/deploy-pages.yml) workflow
 installs dependencies from `yarn.lock`, builds the site, and deploys the `docs`
 output directly to GitHub Pages whenever a commit is pushed to `master`.
 It can also be run manually from the repository's **Actions** tab.
-The build uses Node.js 24 and bypasses legacy dependency engine restrictions
-while keeping the versions in `yarn.lock` fixed.
+The build uses Node.js 24 with the exact dependency versions in `yarn.lock`.
+Lint and browser tests must pass before deployment.
 
 One-time setup:
 
@@ -39,10 +42,28 @@ One-time setup:
 After setup, push source changes to `master`; no local build or generated-file
 commit is required. The local build command still works as before.
 
-### Lints and fixes files
+### Checks code
 ```
 yarn lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Use `yarn lint:fix` to apply automatic fixes.
+
+### Browser regression tests
+```
+yarn playwright install chromium
+yarn test
+```
+
+Tests build and serve the production site in `.test-site`, leaving `docs/`
+untouched. They cover slot/time conversion, networks, upgrade dates, timezone
+output, and accumulator filtering at desktop and mobile sizes.
+
+### Preview a production build
+```
+yarn build
+yarn preview
+```
+
+The site uses Vue 3, Vuetify 4, and Vite. Production builds use relative asset
+paths and copy `public/CNAME` to preserve the custom domain on GitHub Pages.

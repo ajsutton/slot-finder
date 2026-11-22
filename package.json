@@ -3,47 +3,34 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --dest docs",
-    "lint": "vue-cli-service lint"
+    "serve": "vite",
+    "build": "vite build --outDir docs",
+    "preview": "vite preview --outDir docs",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "playwright test"
   },
   "dependencies": {
-    "core-js": "^3.6.5",
-    "dayjs": "^1.11.7",
-    "vue": "^2.7.8",
-    "vuetify": "^2.4.0"
+    "@mdi/font": "^7.4.47",
+    "dayjs": "^1.11.23",
+    "vue": "^3.5.46",
+    "vuetify": "^4.3.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/eslint-parser": "^7.12.16",
-    "@vue/cli-plugin-babel": "~5.0.8",
-    "@vue/cli-plugin-eslint": "~5.0.8",
-    "@vue/cli-service": "~5.0.8",
-    "eslint": "^8.21.0",
-    "eslint-plugin-vue": "^9.3.0",
-    "sass": "^1.32.0",
-    "sass-loader": "^13.0.0",
-    "vue-cli-plugin-vuetify": "~2.5.1",
-    "vue-template-compiler": "^2.6.11",
-    "vuetify-loader": "^1.7.0"
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.65.1",
+    "@vitejs/plugin-vue": "^6.0.11",
+    "eslint": "^10.15.0",
+    "eslint-plugin-vue": "^10.12.1",
+    "globals": "^17.14.0",
+    "sass": "^1.108.2",
+    "vite": "^8.3.8",
+    "vite-plugin-vuetify": "^2.1.3",
+    "vue-eslint-parser": "^10.4.2"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "@babel/eslint-parser"
-    },
-    "rules": {}
+  "type": "module",
+  "engines": {
+    "node": "^24.0.0"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+  "packageManager": "yarn@1.22.22"
 }

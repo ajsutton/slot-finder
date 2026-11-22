@@ -1,30 +1,29 @@
 <template>
     <v-card flat>
-        <v-toolbar flat>
-            <v-row>
-                <v-col cols=12 sm=12 md=3>
-                    <v-select label="Network" v-model="config" :items="networks" item-text="name" item-value="config"></v-select>
-                </v-col>
-            </v-row>
-        </v-toolbar>
-    
-        <v-tabs v-model="tabs" centered>
-            <v-tab href="#slot-finder" left>Slots</v-tab>
-            <v-tab href="#upgrade-scheduler" left>Upgrade Scheduler</v-tab>
-            <v-tab-item value="slot-finder">
-                <slot-finder :config="config"></slot-finder>
-            </v-tab-item>
-            <v-tab-item value="upgrade-scheduler">
-                <upgrade-scheduler :config="config"></upgrade-scheduler>
-            </v-tab-item>
+        <v-row class="pa-4">
+            <v-col cols="12" sm="6" md="3">
+                <v-select label="Network" v-model="config" :items="networks" item-title="name" item-value="config"></v-select>
+            </v-col>
+        </v-row>
+        <v-tabs v-model="tabs" align-tabs="center">
+            <v-tab value="slot-finder">Slots</v-tab>
+            <v-tab value="upgrade-scheduler">Upgrade Scheduler</v-tab>
         </v-tabs>
+        <v-tabs-window v-model="tabs">
+            <v-tabs-window-item value="slot-finder">
+                <slot-finder :config="config"></slot-finder>
+            </v-tabs-window-item>
+            <v-tabs-window-item value="upgrade-scheduler">
+                <upgrade-scheduler :config="config"></upgrade-scheduler>
+            </v-tabs-window-item>
+        </v-tabs-window>
     </v-card>
 </template>
 
 
 <script>
-  import SlotFinder from './SlotFinder';
-  import UpgradeScheduler from './UpgradeScheduler';
+  import SlotFinder from './SlotFinder.vue';
+  import UpgradeScheduler from './UpgradeScheduler.vue';
 
   const MainNetConfig = {
     genesisTime: 1606824023,
@@ -52,7 +51,7 @@
         { name: "Chiado", config: { ...GnosisConfig, genesisTime: 1665396300 } }
       ],
       config: MainNetConfig,
-      tabs: null,
+      tabs: 'slot-finder',
     }),
 
     components: {
@@ -61,5 +60,3 @@
     },
   }
 </script>
-
-        UpgradeScheduler

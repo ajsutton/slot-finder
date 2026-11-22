@@ -1,16 +1,18 @@
-import Vue from 'vue';
-import Vuetify from 'vuetify/lib/framework';
+import '@mdi/font/css/materialdesignicons.css'
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
 
-Vue.use(Vuetify);
-
-export default new Vuetify({
-    theme: {
-        themes: {
-          light: {
-            primary: '#161C2E',
-            secondary: '#63688C',
-            anchor: '#EDEFF0',
-          },
+export default createVuetify({
+  theme: {
+    defaultTheme: 'light',
+    themes: {
+      light: {
+        colors: {
+          primary: '#161C2E',
+          secondary: '#63688C',
+          anchor: '#EDEFF0',
         },
       },
-});
+    },
+  },
+})

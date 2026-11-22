@@ -5,24 +5,23 @@
             <v-menu
                 v-model="dateMenu"
                 :close-on-content-click="false"
-                :nudge-right="40"
+
                 transition="scale-transition"
-                offset-y
+                location="bottom"
                 min-width="auto"
             >
-                <template v-slot:activator="{ on, attrs }">
+                <template v-slot:activator="{ props }">
                 <v-text-field
                     v-model="date"
                     label="Upgrade Date"
                     prepend-icon="mdi-calendar"
                     readonly
-                    v-bind="attrs"
-                    v-on="on"
+                    v-bind="props"
                 ></v-text-field>
                 </template>
                 <v-date-picker
-                v-model="date"
-                @input="dateMenu = false"
+                v-model="pickerDate"
+                @update:model-value="dateMenu = false"
                 ></v-date-picker>
             </v-menu>
         </v-col>
@@ -33,7 +32,7 @@
     </v-row>
     <v-row>
         <v-col cols="12">
-            <v-simple-table fixed-header height="500px">
+            <v-table fixed-header height="500px">
                 <template v-slot:default>
                     <thead>
                         <tr>
@@ -65,17 +64,17 @@
                         </tr>
                     </tbody>
                 </template>
-            </v-simple-table>
+            </v-table>
         </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-    const dayjs = require('dayjs')
-    const utc = require('dayjs/plugin/utc')
-    const timezone = require('dayjs/plugin/timezone')
-    const customParseFormat = require('dayjs/plugin/customParseFormat')
+    import dayjs from 'dayjs'
+    import utc from 'dayjs/plugin/utc.js'
+    import timezone from 'dayjs/plugin/timezone.js'
+    import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 
     dayjs.extend(utc)
     dayjs.extend(timezone)
@@ -93,6 +92,14 @@
             config: Object,
         },
         computed: {
+            pickerDate: {
+                get() {
+                    return new Date(`${this.date}T00:00:00`);
+                },
+                set(value) {
+                    this.date = dayjs(value).format('YYYY-MM-DD');
+                },
+            },
             rows() {
                 const dayStartTimestamp = new Date(this.date).getTime() / 1000;
                 const dayEndTimestamp = dayStartTimestamp + 86400;
@@ -132,9 +139,9 @@
             roundNumberBackground(value) {
                 const text = String(value);
                 if (text.endsWith("00")) {
-                    return "green lighten-1";
+                    return "bg-green-lighten-1";
                 } else if (text.endsWith("0")) {
-                    return "green lighten-3";
+                    return "bg-green-lighten-3";
                 } else {
                     return ""
                 }
@@ -142,15 +149,15 @@
             timeBackground(time, timeZone) {
                 const hour = time.tz(timeZone).hour();
                 if (hour >= 8 && hour < 17) {
-                    return "green lighten-1";
+                    return "bg-green-lighten-1";
                 } else if (hour > 7 && hour < 21) {
-                    return "green lighten-2";
+                    return "bg-green-lighten-2";
                 } else if (hour > 6 && hour < 22) {
-                    return "green lighten-4";
+                    return "bg-green-lighten-4";
                 } else if (hour >= 5 && hour < 24) {
-                    return "yellow lighten-4";
+                    return "bg-yellow-lighten-4";
                 } else if (hour < 5) {
-                    return "red lighten-4";
+                    return "bg-red-lighten-4";
                 }
                 return "";
             }
